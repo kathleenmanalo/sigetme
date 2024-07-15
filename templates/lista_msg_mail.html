@@ -1,0 +1,106 @@
+{#{% extends 'body.html' %}#}
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    <link href="{% static '/lib/adminlte-3.1.0-rc/img/LogoGuardog.png'%}" rel="icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .no-display{
+            display: none;
+        }
+
+    </style>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="card card-default">
+  <div class="card-header">
+    <h3 class="card-title">
+      <i class="fas fa-search"></i>
+      {{ titulo }}
+    </h3>
+  </div>
+  <div>
+     {% if mensaje  %}
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> {{ mensaje }} </h5>
+
+                </div>
+            {% endif %}
+  </div>
+  <div class="card-body">
+    <table class="table" id="data">
+      <thead>
+        {% block columns %}
+
+        {% endblock %}
+      </thead>
+      <tbody>
+        {% block rows %}
+
+        {% endblock %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+      {% csrf_token %}
+
+      {% csrf_token %}
+      <button  class="btn btn-success btn-flat"  Id="EnviarEmail2">
+          <i class="loading-icon fa fa-spinner fa-spin no-display "></i>
+          <span class="btn-txt">Enviar mail masivos</span>
+      </button>
+
+
+        <input id="fec_recordatorio" name="fec_recordatorio" type="text" hidden value="{{ fecha_recordatorio }}">
+        <input id="fec_cumple" name="fec_cumple" type="text" hidden value="{{ fecha_cumple }}">
+  </div>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+    <script type="application/javascript">
+        $('#EnviarEmail2').click(function() {
+                var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+
+                $('.loading-icon').removeClass('no-display');
+                $('#EnviarEmail2').attr('disabled',true);
+                $('.btn-txt').text('Enviando Correos, Espere');
+
+                $.ajax({
+                    url: '/App/Prestamos/enviar_mail/',
+                    type: 'POST',
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: {
+                        'msg' :  2
+                    },
+                    dataType: "json",
+                    cache: true,
+                    async : false,
+                    success: function(response) {
+                        setTimeout(function (){
+
+                            $('.loading-icon').addClass('no-display');
+                            $('#EnviarEmail2').attr('disabled',false);
+                            $('.btn-txt').text('Enviar mail masivos');
+
+                        },5000)
+
+                     }
+                });
+        });
+
+</script>
+{% endblock %}

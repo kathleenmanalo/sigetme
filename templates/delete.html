@@ -1,0 +1,47 @@
+{% extends 'body.html' %}
+
+
+{% block content %}
+
+<form method="post" action='.'>
+	<div class="card card-default">
+		<div class="card-header">
+			<h3 class="card-title">
+				<i class="fas fa-plus"></i>
+				{{ titulo }}
+			</h3>
+		</div>
+		<div class="card-body">
+			{% csrf_token %}  {# Esto se inserta por seguridad #}
+
+            {% if form.errors %}
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error en el registro !</h5>
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li> {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+			<div class="alert alert-danger alert-dismissible">
+                  <h5><i class="icon fas fa-ban"></i> Notificación !</h5>
+                  ¿ Are you sure to delete the item -  Nro {{ object.id }}
+                </div>
+		</div>
+		<div class="card-footer">
+            {% csrf_token %}
+			<button type= "submit" class="btn btn-primary btn-flat ">
+				<i class="fas fa-save"></i> Yes , Enter
+			</button>
+            <a href="{{ list_url }}" class="btn btn-info btn-flat ">
+				<i class="fas fa-times"></i> Cancel
+			</a>
+		</div>
+	</div>
+</form>
+
+{% endblock %}

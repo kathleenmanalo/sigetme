@@ -1,0 +1,69 @@
+{% extends 'list.html' %}
+{% load humanize %}
+
+{% block columns %}
+    <tr>
+        <th scope="col" >Id</th>
+        <th scope="col" >S.O Number</th>
+         <th scope="col" >P.O Number</th>
+        <th scope="col" >Customer</th>
+        <th scope="col" >Ship To</th>
+        <th scope="col" >Sales Rep</th>
+        <th scope="col" >Date</th>
+        <th scope="col" >Opciones</th>
+    </tr>
+{% endblock %}
+
+{% block rows %}
+     {% for c in object_list %} <!--# en object list vienen mi datos -->
+        <tr>
+
+            <td>{{ c.id }}</td>
+            <td>{{ c.So_number}}</td>
+            <td>{{ c.Po_number}}</td>
+            <td>{{ c.customer.name}}</td>
+            <td>{{ c.shipto.citi.name}} - {{ c.shipto.citi.estado.name}} - {{ c.shipto.ShipTo}} - {{ c.shipto.zipcode}}</td>
+            <td>{{ c.rep.name}}</td>
+            <td>{{ c.fecha}}</td>
+            <td>
+{#                <a href= "{% url 'Cobranza:order_update' c.id %}"  class="btn btn-warning btn-xs btn-flat" title="Edit Order">#}
+{#                    <i class="fas fa-pen"></i>#}
+{#                </a>#}
+                <a href= "{% url 'Cobranza:order_update' c.id %}"  class="btn btn-danger btn-flat" title="Edit Order">
+                            <i class="fas fa-edit"></i> Edit Order
+                </a>
+                 <a href= "{% url 'Cobranza:add_item_to_order' c.id %}"  class="btn btn-warning btn-flat" title="Add items to Order">
+                            <i class="fas fa-address-card"></i> Add items to Order
+                </a>
+
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: true,
+                pageLength: 10,
+                order:[0,'desc']
+            });
+
+            $('.btnTest').on('click', function () {
+                $.ajax({
+                    url: '',
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus+': '+errorThrown);
+                }).always(function (data) {
+
+                });
+            });
+        });
+    </script>
+{% endblock %}

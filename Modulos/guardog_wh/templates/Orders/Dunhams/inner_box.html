@@ -1,0 +1,340 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        @media print {
+            @page {size: 153mm 101.6mm; }
+        }
+
+        H1.SaltoDePagina
+         {
+             PAGE-BREAK-AFTER: always
+         }
+
+        .img-invoice {
+            width: 70px;
+            text-align: center;
+            margin-top: 0;
+            margin: 0 ;
+        }
+
+        .pagebreak { page-break-before: always; }
+
+        .head {
+            text-align: center;
+            text-transform: uppercase;
+            top: 2mm;
+
+        }
+
+        #invoice thead tr th {
+            text-align: left;
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            padding-top: 2px;
+        }
+
+        #invoice thead tr {
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        #invoice tbody tr {
+            padding: 0;
+        }
+
+        .text-center{
+            text-align: center;
+        }
+    </style>
+<body>
+{#<img src="{{ icon }}" class="img-invoice">#}
+<p class="head">
+    <b></b><br>
+    <b></b><br>
+    <b></b>
+</p>
+
+<table id="titulo" class="head">
+
+
+</table>
+
+<table id="encabezado">
+
+
+
+</table>
+
+<table id="titulo2">
+
+
+</table>
+
+<table id="invoice">
+
+
+
+    <tbody>
+        {% for XX in arreglo2 %}
+
+
+
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+            </tr>
+
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+            </tr>
+
+
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 30px">PACKAGING REQUIREMENTS</p></td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 18px"><b>Pepper Spray and Accufire -> 12 Units -> Box : 9 x 7 x 6</b></p> </td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 18px"><b>Tactical Pen and Bling it ON -> 6 Units -> Box : 8 x 6 x 4</b></p> </td>
+
+            </tr>
+
+
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+
+
+        {% endfor %}
+
+        {% for p in Detalle %}
+            <H1 class=SaltoDePagina> </H1>
+
+            <tr >
+                <td colspan="2"  style="text-align: center;"><p style="font-size: 18px">.  From</p></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">Skyline USA Inc. </p></td>
+                <td colspan="2"  style="text-align: center;"><p style="font-size: 18px">  To </p></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">Dunham's Sports </p></td>
+            </tr>
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">4180 St Johns Pkway </p></td>
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">255 S 600 E </p></td>
+            </tr>
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">Sanford FL 32771 </p></td>
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">Marion IN 46953 </p></td>
+            </tr>
+
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+            </tr>
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+            </tr>
+
+
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 49px">P.O # {{ p.Orden.Po_number }}  - Dept 15</p></td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 49px">ON LOT {{ forloop.counter }} OF {{ contador_gral }}</p></td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 15px">-</p></td>
+
+            </tr>
+
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 35px">{{ p.Cantidad }} Pcs.  {{ p.ProductName }}</p></td>
+
+            </tr>
+
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+
+        {% endfor %}
+
+        {% for pp in arreglo1 %}
+
+            <H1 class=SaltoDePagina> </H1>
+
+            <tr >
+                <td colspan="2"  style="text-align: center;"><p style="font-size: 18px">.  From</p></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">Skyline USA Inc. </p></td>
+                <td colspan="2"  style="text-align: center;"><p style="font-size: 18px">  To </p></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">Dunham's Sports </p></td>
+            </tr>
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">4180 St Johns Pkway </p></td>
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">255 S 600 E </p></td>
+            </tr>
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">Sanford FL 32771 </p></td>
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+                <td colspan="4"  style="text-align: left;"><p style="font-size: 18px">Marion IN 46953 </p></td>
+            </tr>
+
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+            </tr>
+            <tr >
+                <td colspan="2"  style="text-align: center;"><b> </b></td>
+            </tr>
+
+
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 49px">P.O # {{ pp.Orden.Po_number }}  - Dept 15</p></td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 58px"><b>BOX {{  forloop.counter  }} OF </b>___</p> </td>
+
+            </tr>
+
+
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+            <tr >
+                <td colspan="12"  style="text-align: center;"><p style="font-size: 32px"></p>.</td>
+
+            </tr>
+
+
+        {% endfor %}
+
+    </tr>
+
+{#        <tr style="border-top: 1px solid black; padding-top: 10px;">#}
+{#        <td colspan="4"><b>Total Capital</b></td>#}
+{#        <td style="text-align: right">${{ capital_html|floatformat:2|intcomma }}</td>#}
+{#    </tr>#}
+{#    <tr style="padding-top: 0px;">#}
+{#        <td colspan="4"><b>Total Intereses Corrientes</b></td>#}
+{#        <td style="text-align: right">${{ interes_html|floatformat:2|intcomma }}</td>#}
+{#    </tr>#}
+{#    <tr style="padding-top: 0px;">#}
+{#        <td colspan="4"><b>Total Iva (Comisi贸n Mipyme)</b></td>#}
+{#        <td style="text-align: right">${{ iva_html|floatformat:2|intcomma }}</td>#}
+{#    </tr>#}
+{#    <tr style="padding-top: 0px;">#}
+{#        <td colspan="4"><b>Total Seguro de Vida</b></td>#}
+{#        <td style="text-align: right">${{ seguro_html|floatformat:2|intcomma }}</td>#}
+{#    </tr>#}
+{#    <tr style="padding-top: 0px;">#}
+{#        <td colspan="4"><b>Total Comisi贸n Mipyme</b></td>#}
+{#        <td style="text-align: right">${{ comision_html|floatformat:2|intcomma }}</td>#}
+{#    </tr>#}
+{#    <tr style="padding-top: 0px;">#}
+{#        <td colspan="4"><b>Total a Pagar</b></td>#}
+{#        <td style="text-align: right">${{ gran_total_html|floatformat:2|intcomma }}</td>#}
+{#    </tr>#}
+
+    </tbody>
+</table>
+<table style="margin-top: 10px;">
+    <thead>
+
+    </thead>
+</table>
+</body>
+</html>

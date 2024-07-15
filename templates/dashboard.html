@@ -1,0 +1,528 @@
+{#    {% extends 'list.html' %}#}
+    {% extends 'layout.html' %}
+    {% load humanize %}
+    {% load static %}
+    {% block head %}
+
+        <link href="{% static '/lib/adminlte-3.1.0-rc/img/LogoGuardog.png'%}" rel="icon">
+        <link href="{% static 'lib/iportafolio/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+        {% csrf_token %}
+        <script src="{%  static 'lib/Highcharts-9.0.1/code/highcharts.js' %}"></script>
+        <script src="{%  static 'lib/Highcharts-9.0.1/code/modules/exporting.js' %}"></script>
+        <script src="{%  static 'lib/Highcharts-9.0.1/code/modules/export-data.js'%}"></script>
+        <script src="{%  static 'lib/Highcharts-9.0.1/code/modules/accessibility.js'%}"></script>
+        <script src="{%  static 'lib/Highcharts-9.0.1/code/modules/series-label.js'%}"></script>
+
+    {% endblock %}
+
+    {%  block content %}
+        {% csrf_token %}
+        <div class="container-fluid">
+
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="container4">
+                    </div>
+                </div>
+            </div>
+
+            <h4>  </h4>
+            <h4>  </h4>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="container4A">
+                    </div>
+                </div>
+            </div>
+
+            <h4>  </h4>
+            <h4>  </h4>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="container5A">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <script
+                type="application/javascript" >
+                Highcharts.chart('container4', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text:  'Order Status by Month'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'April',
+                        'May',
+                        'Jun','July','Aug','Sept','Oct','Nov','Dec'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Cantidad (#)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:,.0f} #</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Open',
+                    data: {{ Abiertas_x_Mes}} {#esta es la variable que viene desde la vista#}
+
+                }, {
+                    name: 'Closed',
+                    data: {{ Cerradas_x_Mes}}
+
+                },
+                {
+                    name: 'Total',
+                    data: {{ Total_x_Mes}}
+
+                }]
+            });
+        </script>
+{#
+        #}
+        <script
+                type="application/javascript" >
+                Highcharts.chart('container4A', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text:  'Number of Orders per Contractor'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'April',
+                        'May',
+                        'Jun','July','Aug','Sept','Oct','Nov','Dec'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Qty (#)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:,.0f} #</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Home Team',
+                    data: {{ Home_Team}} {#esta es la variable que viene desde la vista#}
+
+                }, {
+                    name: 'In-House',
+                    data: {{ In_House}}
+
+                },
+                {
+                    name: 'Famorfe',
+                    data: {{ Famorfe}}
+
+                }]
+            });
+        </script>
+{#        #}
+        ***************************
+
+        <script
+                type="application/javascript" >
+                Highcharts.chart('container5A', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text:  'Payments per Month'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'April',
+                        'May',
+                        'Jun','July','Aug','Sept','Oct','Nov','Dec'
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Qty (#)'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:,.0f} #</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Payments',
+                    data: {{ Payment_per_mes }} {#esta es la variable que viene desde la vista#}
+
+                }]
+            });
+        </script>
+        ****************************
+        <script
+                type="application/javascript" >
+                    Highcharts.chart('container5', {
+                title: {
+                    text: 'Gestión diaria de Cobranza - Mes Actual'
+                },
+                xAxis: {
+                    categories: ['1', '2', '3', '4', '5','6','7','8','9','10','11','12','13','14','15','16','17'
+                        ,'18','19','20','21','22','23','24','25','26','27','28','29','30','31']
+                },
+                labels: {
+                    items: [{
+                        html: 'Total por Funcionario',
+                        style: {
+                            left: '50px',
+                            top: '18px',
+                            color: ( // theme
+                                Highcharts.defaultOptions.title.style &&
+                                Highcharts.defaultOptions.title.style.color
+                            ) || 'black'
+                        }
+                    }]
+                },
+                series: [{
+                    type: 'column',
+                    name: 'Yamile',
+                    data: {{ Obs_Yamile_2}}
+                }, {
+                    type: 'column',
+                    name: 'Ruben R',
+                    data: {{ Obs_Milton_2}}
+                }, {
+                    type: 'column',
+                    name: 'Fernando',
+                    data: {{ Obs_Fer_2}}
+                },{
+                    type: 'column',
+                    name: 'Area Jurídica',
+                    data: {{ Obs_Abogado_2}}
+                } , {
+                    type: 'column',
+                    name: 'Area Jurídica',
+                    data: {{ Obs_Malka_2}}
+                } ,
+                    {
+                    type: 'spline',
+                    name: 'Promedio',
+                    data: {{ Promedio }},
+                    marker: {
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[3],
+                        fillColor: 'white'
+                    }
+                }, {
+                    type: 'pie',
+                    name: 'Total de Gestiones',
+                    data: [{
+                        name: 'Yamile',
+                        y: {{ tot_Yamile_mes }},
+                        color: Highcharts.getOptions().colors[0] // Jane's color
+                    }, {
+                        name: 'Ruben',
+                        y: {{ tot_Milton_mes }},
+                        color: Highcharts.getOptions().colors[1] // John's color
+                    }, {
+                        name: 'Fernando',
+                        y: {{ tot_Fer_mes }},
+                        color: Highcharts.getOptions().colors[3] // Joe's color
+                    },{
+                        name: 'Area Juridica',
+                        y: {{ tot_Abogado_mes }},
+                        color: Highcharts.getOptions().colors[5] // Joe's color
+                    }],
+                    center: [100, 80],
+                    size: 100,
+                    showInLegend: false,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }]
+            });
+        </script>
+        <script
+                type="application/javascript" >
+                    Highcharts.chart('container6', {
+                title: {
+                    text: 'Recaudo por Día - Mes Actual'
+                },
+                xAxis: {
+                    categories: ['1', '2', '3', '4', '5','6','7','8','9','10','11','12','13','14','15','16','17'
+                        ,'18','19','20','21','22','23','24','25','26','27','28','29','30','31']
+                },
+
+                series: [{
+                    type: 'column',
+                    name: 'Pagos',
+                    data: {{ Pagos_por_dia }}
+                } ,{
+                    type: 'spline',
+                    name: 'Promedio',
+                    data: {{ Promedio_por_dia }},
+                    marker: {
+                        lineWidth: 1,
+                        lineColor: Highcharts.getOptions().colors[3],
+                        fillColor: 'white'
+                    }
+                }]
+            });
+        </script>
+        <script
+                type="application/javascript" >
+                   Highcharts.chart('container7', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Cartera / Recaudo / Colocaciones y Gastos 2021'
+                    },
+                    subtitle: {
+                        text: 'Fuente : Extracto Bancolombia / KREDIT '
+                    },
+                    xAxis: {
+                        categories: [
+                            'Jan',
+                            'Feb',
+                            'Mar',
+                            'Apr',
+                            'May',
+                            'Jun',
+                            'Jul',
+                            'Aug',
+                            'Sep',
+                            'Oct',
+                            'Nov',
+                            'Dec'
+                        ],
+                        crosshair: true
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Pesos ($)'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>$ {point.y:,.0f} </b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: 'Recaudo ',
+                        data: {{ Pagos_por_mes |intcomma}}
+
+                    },
+                    {
+                        name: 'Interes ',
+                        data:  {{ Interes_Recaudado |intcomma}}
+
+                    },
+                    {
+                        name: 'Capital ',
+                        data: {{ Capital_Recaudado |intcomma}}
+
+                    },
+                    {
+                        name: 'Colocaciones',
+                        data: {{ Colocaciones |intcomma}}
+
+                    },
+                    {
+                        name: 'Comision MiPyme',
+                        data: {{ ComisionMiPyme |intcomma}}
+
+                    },
+                    {
+                        name: 'Estudio de Crédito',
+                        data: {{ EstudiodeCredito |intcomma}}
+
+                    },
+                    {
+                        name: 'CIFIN',
+                        data: {{ Cifin_Recaudado |intcomma}}
+
+                    }]
+                });
+        </script>
+        <script
+                type="application/javascript" >
+                    Highcharts.chart('container8', {
+                title: {
+                    text: 'Comparativo de Recaudo'
+                },
+                xAxis: {
+                    categories: [
+                            'Jan',
+                            'Feb',
+                            'Mar',
+                            'Apr',
+                            'May',
+                            'Jun',
+                            'Jul',
+                            'Aug',
+                            'Sep',
+                            'Oct',
+                            'Nov',
+                            'Dec'
+                        ]
+                },
+                labels: {
+                    items: [{
+                        html: '',
+                        style: {
+                            left: '50px',
+                            top: '18px',
+                            color: ( // theme
+                                Highcharts.defaultOptions.title.style &&
+                                Highcharts.defaultOptions.title.style.color
+                            ) || 'black'
+                        }
+                    }]
+                },
+                series: [{
+                    type: 'column',
+                    name: '2017',
+                    data: {{ Pagos_2017}}
+                }, {
+                    type: 'column',
+                    name: '2018',
+                    data: {{ Pagos_2018}}
+                }, {
+                    type: 'column',
+                    name: '2019',
+                    data: {{ Pagos_2019}}
+                },{
+                    type: 'column',
+                    name: '2020',
+                    data: {{ Pagos_2020}}
+                } ,{
+                    type: 'column',
+                    name: '2021',
+                    data: {{ Pagos_2021}}
+                },{
+                    type: 'column',
+                    name: '2022',
+                    data: {{ Pagos_2022}}
+                }]
+            });
+        </script>
+
+        <script
+                type="application/javascript" >
+           Highcharts.chart('container9', {
+                chart: {
+                    type: 'pie',
+                    options3d: {
+                        enabled: true,
+                        alpha: 45
+                    }
+                },
+                title: {
+                    text: 'Capital Comprometido '
+                },
+                subtitle: {
+                    text: 'Solo Alturas : C-D-E'
+                },
+                plotOptions: {
+                    pie: {
+                        innerSize: 100,
+                        depth: 45
+                    }
+                },
+                series: [{
+                    name: 'Capital afectado: ',
+                    data: [
+                        ['Normalidad en Pagos', {{ Normalidad.0}}],
+                        ['Pendiente de Tramite', {{ Pendiente_Tramite.0}}],
+                        ['Revisando Bienes', {{ Revision_Bienes.0}}],
+                        ['Acuerdo de Pago', {{ Acuerdo.0}}],
+                        ['Embargado', {{ Embargado.0}}],
+                        ['Demanda Presentada', {{ Demandado.0}}],
+                        ['Ilocalizable', {{ Ilocalizable.0}}],
+                        ['Fallo a Favor', {{ Fallado.0}}],
+                        ['Desestimiento Tácito', {{ Desestimiento.0}}]
+                    ]
+                }]
+            });
+        </script>
+    {% endblock %}
+
+

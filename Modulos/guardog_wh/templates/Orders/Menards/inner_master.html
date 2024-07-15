@@ -1,0 +1,323 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        @media print {
+            @page {size: 153mm 101.6mm; }
+        }
+
+        H1.SaltoDePagina
+         {
+             PAGE-BREAK-AFTER: always
+         }
+
+        .img-invoice {
+            width: 100mm;
+            height:70mm;
+            text-align: center;
+            margin-top: 4cm;
+            margin-bottom: 2cm;
+            border-color: #4AADD1;
+            display: block;
+            border-style: hidden;
+             ;
+        }
+
+        .pagebreak { page-break-before: always; }
+
+        .head {
+            text-align: center;
+            text-transform: uppercase;
+            top: 2mm;
+
+        }
+
+        #invoice thead tr th {
+            text-align: left;
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            padding-top: 2px;
+        }
+
+        #invoice thead tr {
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        #invoice tbody tr {
+            padding: 0;
+        }
+
+        .text-center{
+            text-align: center;
+        }
+    </style>
+<body>
+
+
+{#<p class="head">#}
+{#    <b></b><br>#}
+{#    <b></b><br>#}
+{#    <b></b>#}
+{#</p>#}
+
+<table id="titulo" class="head">
+
+
+</table>
+
+<table id="encabezado">
+
+
+
+</table>
+
+<table id="titulo2">
+
+
+</table>
+
+<table id="invoice">
+
+
+
+    <tbody>
+
+{#        Impresion de Codigos de Barras para cada inner box#}
+
+        <p style="text-align: center; "> <img src="/media/MenardReq.png" width="205mm" height="125mm"></p>
+        <p style="text-align: center; "> <img src="/media/MenardReqLabel.png" width="205mm" height="125mm"></p>
+
+        {% for p in Detalle %}
+            <p style="text-align: center; "> <img src="/media/{{ p.Archivo_imagen }}" width="205mm" height="125mm"></p>
+        {% endfor %}
+
+{#        Impresion de Codigos de Barras Master Labeles#}
+
+        {% for q in Master %}
+            <p style="text-align: center; "> <img src="/media/{{ q.Barcode_image }}" width="205mm" height="125mm"></p>
+            <p style="text-align: center; "> <img src="/media/{{ q.Barcode_image }}" width="205mm" height="125mm"></p>
+            <p>.</p>
+            <p>.</p>
+            <table>
+                <tr>
+                    <div>
+                        <td>
+                            <p style="text-align: center; "> <img src="/media/Menard.png" width="90mm" height="50mm"></p>
+                        </td>
+                    </div>
+                    <div>
+                        <td>
+                            <p style="font-size: 18px">Description of Product</p>
+                            <p style="font-size: 18px">Menard SKU # {{ q.SKU_p }}</p>
+                            <p style="font-size: 18px">Quantity : {{ q.Total_of_Items }}</p>
+                            <p style="font-size: 18px">Net Weight : {{ q.Weight_Net }}</p>
+                            <p style="font-size: 18px">Gross Weight : {{ q.Weight }}</p>
+
+                        </td>
+
+                    </div>
+
+                </tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">{{ q.Destino_final }} </p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px"> </p></td>
+
+                </tr>
+
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">P.O # : {{ q.PO_Num }}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">Carton {{ forloop.counter }} of
+                        {{ tot_cajas_total }} </p></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">Made in USA</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">Burst/ETC 200 </p></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 10px">{{q.ProductName}}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">ID {{ q.Dimensions}}</p></td>
+                </tr>
+
+
+            </table>
+            <p>.</p>
+            <table>
+                <tr>
+                    <div>
+                        <td>
+                            <p style="text-align: center; "> <img src="/media/Menard.png" width="90mm" height="50mm"></p>
+                        </td>
+                    </div>
+                    <div>
+                        <td>
+                            <p style="font-size: 18px">Description of Product</p>
+                            <p style="font-size: 18px">Menard SKU # {{ q.SKU_p }}</p>
+                            <p style="font-size: 18px">Quantity : {{ q.Total_of_Items }}</p>
+                            <p style="font-size: 18px">Net Weight : {{ q.Weight_Net }}</p>
+                            <p style="font-size: 18px">Gross Weight : {{ q.Weight }}</p>
+
+                        </td>
+
+                    </div>
+
+                </tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">{{ q.Destino_final }} </p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px"> </p></td>
+
+                </tr>
+
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">P.O # : {{ q.PO_Num }}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">Carton {{ forloop.counter }} of
+                        {{ tot_cajas_total }} </p></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">Made in USA</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">Burst/ETC 200 </p></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 10px">{{q.ProductName}}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">ID {{ q.Dimensions}}</p></td>
+                </tr>
+
+            </table>
+            <p>.</p>
+            <table>
+                <tr>
+                    <div>
+                        <td>
+                            <p style="text-align: center; "> <img src="/media/Menard.png" width="90mm" height="50mm"></p>
+                        </td>
+                    </div>
+                    <div>
+                        <td>
+                            <p style="font-size: 18px">Description of Product</p>
+                            <p style="font-size: 18px">Menard SKU # {{ q.SKU_p }}</p>
+                            <p style="font-size: 18px">Quantity : {{ q.Total_of_Items }}</p>
+                            <p style="font-size: 18px">Net Weight : {{ q.Weight_Net }}</p>
+                            <p style="font-size: 18px">Gross Weight : {{ q.Weight }}</p>
+
+                        </td>
+
+                    </div>
+
+                </tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">{{ q.Destino_final }} </p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px"> </p></td>
+
+                </tr>
+
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">P.O # : {{ q.PO_Num }}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">Carton {{ forloop.counter }} of
+                        {{ tot_cajas_total }} </p></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">Made in USA</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">Burst/ETC 200 </p></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 10px">{{q.ProductName}}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">ID {{ q.Dimensions}}</p></td>
+                </tr>
+
+            </table>
+            <p>.</p>
+            <table>
+                <tr>
+                    <div>
+                        <td>
+                            <p style="text-align: center; "> <img src="/media/Menard.png" width="90mm" height="50mm"></p>
+                        </td>
+                    </div>
+                    <div>
+                        <td>
+                            <p style="font-size: 18px">Description of Product</p>
+                            <p style="font-size: 18px">Menard SKU # {{ q.SKU_p }}</p>
+                            <p style="font-size: 18px">Quantity : {{ q.Total_of_Items }}</p>
+                            <p style="font-size: 18px">Net Weight : {{ q.Weight_Net }}</p>
+                            <p style="font-size: 18px">Gross Weight : {{ q.Weight }}</p>
+
+                        </td>
+
+                    </div>
+
+                </tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">{{ q.Destino_final }} </p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px"> </p></td>
+
+                </tr>
+
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">P.O # : {{ q.PO_Num }}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">Carton {{ forloop.counter }} of
+                        {{ tot_cajas_total }} </p></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 18px">Made in USA</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">Burst/ETC 200 </p></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 10px">{{q.ProductName}}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 18px">ID {{ q.Dimensions}}</p></td>
+                </tr>
+
+            </table>
+
+
+        {% endfor %}
+
+{#        Aqui voy a imprimir el Weight Sheet#}
+        <p>.</p>
+        <div>
+            <p style="font-size: 18px; text-align: center">WEIGHTSHEET</p></td>
+        </div>
+
+
+        <table>
+            <tr >
+                <td colspan="1"  style="text-align: center;"><p style="font-size: 16px">Box No</p></td>
+                <td colspan="1"  style="text-align: left;"><p style="font-size: 16px">Item</p></td>
+                <td colspan="1"  style="text-align: center;"><p style="font-size: 16px">Qty</p></td>
+                <td colspan="1"  style="text-align: left;"><p style="font-size: 16px">Weight</p></td>
+                <td colspan="1"  style="text-align: left;"><p style="font-size: 16px">Dimensions</p></td>
+            </tr>
+
+
+            {% for ws in Master %}
+                <tr>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 16px">{{ ws.BoxNumber }}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 16px">{{ ws.ProductName }}</p></td>
+                    <td colspan="1"  style="text-align: center;"><p style="font-size: 16px">{{ ws.Total_of_Items }}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 16px">{{ ws.Weight }}</p></td>
+                    <td colspan="1"  style="text-align: left;"><p style="font-size: 16px">{{ ws.Dimensions }}</p></td>
+
+                </tr>
+        {% endfor %}
+
+        </table>
+
+    </tbody>
+</table>
+<table style="margin-top: 10px;">
+    <thead>
+
+    </thead>
+</table>
+</body>
+</html>

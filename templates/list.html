@@ -1,0 +1,83 @@
+{#{% extends 'body.html' %}#}
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    <link href="{% static '/lib/adminlte-3.1.0-rc/img/LogoGuardog.png'%}" rel="icon">
+{% endblock %}
+
+{% block content %}
+<div class="card card-default">
+  <div class="card-header">
+    <h3 class="card-title">
+      <i class="fas fa-search"></i>
+      {{ titulo }}
+    </h3>
+  </div>
+  <div>
+     {% if mensaje  %}
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> {{ mensaje }} </h5>
+
+                </div>
+            {% endif %}
+    </div>
+  <div class="card-body">
+    <table class="table" id="data">
+      <thead>
+        {% block columns %}
+
+        {% endblock %}
+      </thead>
+      <tbody>
+        {% block rows %}
+
+        {% endblock %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+    <a href="{{ create_url }}" class="btn btn-primary btn-flat btnTest"> <!--esto sirve para hacer llamados -->
+      <i class="fas fa-plus"></i> Add New Order
+    </a>
+      <div id="plan_pago"></div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: false,
+                pageLength: 25,
+                order:[0,'desc']
+            });
+
+            $('.btnTest').on('click', function () {
+                $.ajax({
+                    {#url: '',#}
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus+': '+errorThrown);
+                }).always(function (data) {
+
+                });
+            });
+        });
+    </script>
+{% endblock %}

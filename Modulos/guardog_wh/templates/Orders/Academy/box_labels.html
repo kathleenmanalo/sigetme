@@ -1,0 +1,177 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        @media print {
+            @page {size: 153mm 101.6mm; }
+        }
+
+        H1.SaltoDePagina
+         {
+             PAGE-BREAK-AFTER: always
+         }
+
+        .img-invoice {
+            width: 100mm;
+            height:70mm;
+            text-align: center;
+            margin-top: 4cm;
+            margin-bottom: 2cm;
+            border-color: #4AADD1;
+            display: block;
+            border-style: hidden;
+             ;
+        }
+
+        .pagebreak { page-break-before: always; }
+
+        .head {
+            text-align: center;
+            text-transform: uppercase;
+            top: 2mm;
+
+        }
+
+        #invoice thead tr th {
+            text-align: left;
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            padding-top: 2px;
+        }
+
+        #invoice thead tr {
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        #invoice tbody tr {
+            padding: 0;
+        }
+
+        .text-center{
+            text-align: center;
+        }
+    </style>
+<body>
+
+
+{#<p class="head">#}
+{#    <b></b><br>#}
+{#    <b></b><br>#}
+{#    <b></b>#}
+{#</p>#}
+
+<table id="titulo" class="head">
+
+
+</table>
+
+<table id="encabezado">
+
+
+
+</table>
+
+<table id="titulo2">
+
+
+</table>
+
+<table id="invoice">
+
+
+
+    <tbody>
+
+{#        Impresion de Codigos de Barras para cada inner box#}
+
+
+
+{#        Impresion de Codigos de Barras Master Labeles#}
+
+        {% for q in Master %}
+
+
+             <p style="text-align: center; "> <img src="/media/Academy.png" width="90mm" height="50mm"></p>
+            <table>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">DC  # {{ q.Destino_final }}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">P.O : {{ q.PO_Num }}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">Product : {{q.ProductName}}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">Color : {{q.color}}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">Qty : {{ q.Total_of_Items }}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">Case No : {{ forloop.counter }} of
+                        {{ tot_cajas_total }} </p></td>
+                </tr>
+
+            </table>
+
+            <p>.</p>
+            <p>.</p>
+            <p>.</p>
+
+            <table>
+
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">P.O : {{ q.PO_Num }}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">Qty : {{ q.Total_of_Items }}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">NT WT : {{ q.Weight }}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">GR WT : {{ q.Weight }}</p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: left;"><p style="font-size: 24px">MESU : {{ q.Dimensions }}</p></td>
+                </tr>
+                <tr></tr>
+                <tr>
+                    <td></td>
+                    <td colspan="4"  style="text-align: right;"><p style="font-size: 10px">{{q.ProductName}}</p></td>
+                </tr>
+
+
+            </table>
+
+
+
+
+        {% endfor %}
+
+
+    </tbody>
+</table>
+<table style="margin-top: 10px;">
+    <thead>
+
+    </thead>
+</table>
+</body>
+</html>

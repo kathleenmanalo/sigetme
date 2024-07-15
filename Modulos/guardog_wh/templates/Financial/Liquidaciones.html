@@ -1,0 +1,64 @@
+{% extends 'list_Contractor.html' %}
+{% load humanize %}
+
+{% block columns %}
+    <tr>
+        <th  >Liquidation</th>
+        <th  >Date</th>
+        <th  >Contractor</th>
+        <th  >Opciones</th>
+
+    </tr>
+{% endblock %}
+
+{% block rows %}
+     {% for c in Detalle_Orden %} <!--# en object list vienen mi datos -->
+        <tr>
+
+            <td>{{ c.Numero_Liq }}</td>
+            <td>{{ c.fecha_liquidacion|date:'m-d-Y'}}</td>
+            <td>{{ c.Contractor.Name}}</td>
+
+            <td>
+
+            <a href= "{% url 'Cobranza:print_full_liquidacion' c.Numero_Liq %}"  class="btn btn-danger btn btn-flat" title="Add items to Order">
+                                <i class="fas fa-address-card"></i> View PDF
+            </a>
+
+{#            <a href="{% url 'Cobranza:add_item_to_order_contractor'  c.id %}" class="btn btn-danger btn btn-flat"> <!--esto sirve para hacer llamados -->#}
+{#              <i class="fas fa-plus"></i> Add Item to Order..#}
+{#            </a>#}
+
+
+            </td>
+
+        </tr>
+    {% endfor %}
+{% endblock %}
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: true,
+                pageLength: 10,
+                order:[0,'desc']
+            });
+
+            $('.btnTest').on('click', function () {
+                $.ajax({
+                    url: '',
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus+': '+errorThrown);
+                }).always(function (data) {
+
+                });
+            });
+        });
+    </script>
+{% endblock %}

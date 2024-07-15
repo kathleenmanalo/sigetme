@@ -1,0 +1,62 @@
+{% extends 'list_payments.html' %}
+{% load humanize %}
+
+{% block columns %}
+    <tr>
+        <th  >Order No.</th>
+        <th  >Project</th>
+        <th  >Contractor</th>
+        <th  >Code</th>
+        <th  >Product</th>
+        <th >Rate</th>
+        <th  >Unit V.</th>
+        <th  >Qty Req/Delivered</th>
+        <th  >Delivery Date</th>
+
+    </tr>
+{% endblock %}
+
+{% block rows %}
+     {% for c in Detalle_Orden %} <!--# en object list vienen mi datos -->
+        <tr>
+
+            <td>{{ c.Orden_id }}</td>
+            <td>{{ c.Orden.Project.Name}}</td>
+            <td>{{ c.Orden.Contractor.Name}}</td>
+            <td>{{ c.Product.code}}</td>
+            <td>{{ c.Product.name}}</td>
+            <td>{{ c.Product.rate.name}}</td>
+            <td>{{ c.Product.rate.valor}}</td>
+            <td>{{ c.Qty_Req}}/{{ c.Qty_Delivery}}</td>
+            <td>{{ c.fecha}}</td>
+
+        </tr>
+    {% endfor %}
+{% endblock %}
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: true,
+                pageLength: 10,
+                order:[0,'desc']
+            });
+
+            $('.btnTest').on('click', function () {
+                $.ajax({
+                    url: '',
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus+': '+errorThrown);
+                }).always(function (data) {
+
+                });
+            });
+        });
+    </script>
+{% endblock %}

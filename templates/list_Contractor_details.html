@@ -1,0 +1,125 @@
+{#{% extends 'body.html' %}#}
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    <link href="{% static '/lib/adminlte-3.1.0-rc/img/LogoGuardog.png'%}" rel="icon">
+{% endblock %}
+
+{% block content %}
+<div class="card card-default">
+  <div class="card-header">
+    <h3 class="card-title">
+      <i class="fas fa-search"></i>
+      {{ titulo }}
+    </h3>
+  </div>
+  <div>
+     {% if mensaje  %}
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> {{ mensaje }} </h5>
+
+                </div>
+            {% endif %}
+    </div>
+  <div class="card-body">
+    <table class="table" id="data">
+      <thead>
+        {% block columns %}
+
+        {% endblock %}
+      </thead>
+      <tbody>
+        {% block rows %}
+
+        {% endblock %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+{#    <a href="{% url 'Cobranza:add_item_to_order_contractor' numero_orden %}" class="btn btn-primary btn-flat "> <!--esto sirve para hacer llamados -->#}
+    {% if Estado_Orden2 == 'N' %}
+        <a href="{% url 'Cobranza:add_item_order_contrac_v2' numero_orden %}" class="btn btn-warning btn btn-sm"> <!--esto sirve para hacer llamados -->
+            <i class="fas fa-print"></i> Add Items
+        </a>
+    {% endif %}
+
+    <a href="{% url 'Cobranza:print_full_ordercontractor' numero_orden %}" class="btn btn-info btn btn-sm"> <!--esto sirve para hacer llamados -->
+      <i class="fas fa-print"></i> Print Order
+    </a>
+
+    {% if Estado_Orden2 == 'N' %}
+        <a href="{% url 'Cobranza:aprobar_orden' numero_orden %}" class="btn btn-danger btn btn-sm"> <!--esto sirve para hacer llamados -->
+          <i class="fas fa-check"></i> Close Order
+        </a>
+    {% endif %}
+
+      <div id="plan_pago"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="application/javascript">
+    $('#IraPagar2').click(function() {
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+        alert(csrftoken);
+        orden = document.getElementById("orden").value;
+        {#Orden de Venta#}
+        sale_order = document.getElementById("orden_2").value;
+        {#Codigo del Producto#}
+        prod_id = document.getElementById("id_Prod").value;
+        {#Cantidad Vendida#}
+        cant = document.getElementById("id_Ordered_Qty").value;
+        {##}
+        cust_id3 = document.getElementById("cust_id2").value;
+        {##}
+        {#alert('aqui voy ya con los datos');#}
+        {#alert(orden);#}
+        {#alert(sale_order);#}
+        {#alert(prod_id);#}
+        {#alert(cant);#}
+
+        $('.loading-icon').removeClass('no-display');
+        $('#IraPagar2').attr('disabled',true);
+        $('.btn-txt').text('Adding Item..., Wait');
+
+        {#alert('aqui voy 2');#}
+
+        $.ajax({
+            url: '/App/Orders/additem2/',
+            type: 'POST',
+            headers: {"X-CSRFToken": csrftoken},
+            data: {
+                'orden2': orden,
+                'prod2' : prod_id,
+                'qty2' : cant,
+                'cust_id4' : cust_id3,
+            },
+            dataType: "json",
+            cache: true,
+            async: false,
+            success: function (response) {
+                setTimeout(function () {
+
+                    $('.loading-icon').addClass('no-display');
+                    $('#IraPagar2').attr('disabled', false);
+                    $('.btn-txt').text('Add Item');
+                    {#alert('Done - Boxing and Item added ');#}
+                    location.reload();
+                }, 500)
+
+            },
+        })
+        alert('fin..termine')
+        });
+    </script>
+{% endblock %}

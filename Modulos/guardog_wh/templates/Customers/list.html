@@ -1,0 +1,66 @@
+{% extends 'list.html' %}
+{% load static %}
+
+{% load humanize %}
+
+{% block columns %}
+    <tr>
+        <th scope="col" >Id</th>
+        <th scope="col" >Nombre</th>
+        <th scope="col" >Choices</th>
+
+    </tr>
+{% endblock %}
+
+{% block rows %}
+     {% for c in object_list %} <!--# en object list vienen mi datos -->
+        <tr>
+
+            <td>{{ c.id }}</td>
+            <td>{{ c.name}}</td>
+            <td>
+{#                <a href= "{% url 'Cobranza:order_update' c.id %}"  class="btn btn-warning btn-xs btn-flat" title="Edit Order">#}
+{#                    <i class="fas fa-pen"></i>#}
+{#                </a>#}
+                <a href= "{% url 'Cobranza:order_list' c.id %}"  class="btn btn-warning  btn-flat" title="View Orders for this customer">
+                            <i class="fas fa-cash-register"></i> View Orders
+                </a>
+
+
+            </td>
+
+
+        </tr>
+    {% endfor %}
+{% endblock %}
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: true,
+                pageLength: 10,
+                order:[0,'desc'],
+                "language": {
+			           "search": "Filter records:","lengthMenu": "Display _MENU_ records",
+                        "infoEmpty": "No entries to show","info": "Showing page _PAGE_ of _PAGES_",
+                        "emptyTable": "No data available in table","previous": "Previous page","sNext": "Next"}
+            });
+
+            $('.btnTest').on('click', function () {
+                $.ajax({
+                    url: '',
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus+': '+errorThrown);
+                }).always(function (data) {
+
+                });
+            });
+        });
+    </script>
+{% endblock %}

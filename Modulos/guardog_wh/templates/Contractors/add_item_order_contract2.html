@@ -1,0 +1,198 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block head %}
+
+    <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet"/>
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+
+    <script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
+    <script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <link href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet"/>
+
+    <link href="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.css' %}" rel="stylesheet"/>
+    <script src="{% static 'lib/bootstrap-touchspin-4.3.0/jquery.bootstrap-touchspin.js' %}"></script>
+    <link href="{% static '/lib/adminlte-3.1.0-rc/img/LogoGuardog.png'%}" rel="icon">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .no-display{
+            display: none;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block content %}
+<div class="card card-default">
+  <div class="card-header">
+    <h3 class="card-title">
+      <i class="fas fa-plus"></i>
+      {{ titulo }}  {{ orden_main }}
+    </h3>
+  </div>
+
+  <div class="card-body">
+      <div class="row">
+          <div class="col-lg-8">
+              <div class="card card-secondary">
+                  <div class="card-header">
+                      <h3 class="card-title"> <i class="fas fa-money-check-alt"></i> Order Details</h3>
+                  </div>
+                  <div class="card-body">
+                      <table class="table" id="data">
+                          <thead>
+                          <tr>
+                              <th>Code</th>
+                              <th>Product</th>
+                              <th>Qty Req</th>
+                              <th>Seal/Barcode</th>
+                              <th>Special Instructions</th>
+{#                              <th>Mater Box Req.</th>#}
+
+                          </tr>
+                          </thead>
+                           <tbody>
+                                {% block rows %}
+                                     {% for c in orden_al_detalle %} <!--# en object list vienen mi datos -->
+                                         <tr>
+                                             <td class="text-center" > {{ c.Product.code }}</td>
+                                             <td class="text-center" > {{ c.Product.name }}</td>
+                                             <td class="text-center" > {{ c.Qty_Req }}</td>
+                                             <td class="text-center" > {{ c.Sellado }}/{{ c.Barcode }}</td>
+                                             <td class="text-center" > {{ c.Special_Inst }}</td>
+
+                                         </tr>
+                                     {% endfor %}
+                                {% endblock %}
+                                <tr>
+                                             <td class="text-center" > </td>
+                                             <td class="text-center" ></td>
+                                             <td class="text-center" > </td>
+                                             <td>
+                                                    <a href= "{% url 'Cobranza:print_full_ordercontractor'  orden_main  %}"  class="btn btn-success btn">
+                                                    <i class="fas fa-print"></i> Print Order
+                                                    </a>
+                                                </td>
+                                             <td class="text-center" > </td>
+{#                                             <td class="text-center" > {{ c.QtyBigBox }}</td>#}
+                                </tr>
+                           </tbody>
+                      </table>
+
+                  </div>
+              </div>
+
+          </div>
+          <div class="col-lg-4">
+               <div class="card card-danger">
+                  <div class="card-header">
+                      <h3 class="card-title"> <i class="fas fa-hands-helping"></i> Items available to Add</h3>
+                  </div>
+                  <div class="card-body">
+                     <table>
+                         <tr>
+{#                             Orden dada por el sistema - o sea el ID#}
+                            <input id="orden" name="orden" type="number" hidden value="{{ orden_main }}">
+{#                             Orden dada por el sistema de facturacion, consecutivo de la empresa#}
+{#                             <input id="orden_2" name="orden_2" type="number" hidden value="{{ num_order }}">#}
+{#                             <input id="cust_id2" name="cust_id2" type="number" hidden value="{{ cust_id }}">#}
+                         </tr>
+                            <td>
+                                {% csrf_token %}
+                                 {{ form }}
+                            </td>
+                         <tr>
+                             <td></td>
+                         </tr>
+                         <tr>
+                             <td>
+                                <button class="btn btn-danger btn-flat" Id="IraPagar">
+                                    <i class="loading-icon fa fa-spinner fa-spin no-display "></i>
+                                    <span class="btn-txt">Add Item to Order</span>
+                                </button>
+
+                             </td>
+                         </tr>
+
+                     </table>
+
+                  </div>
+              </div>
+
+
+{#              ##}
+
+{#              ##}
+
+          </div>
+
+      </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="application/javascript">
+    $('#IraPagar').click(function() {
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+        {#alert(csrftoken);#}
+        orden = document.getElementById("orden").value;
+        {#alert(orden);#}
+        id_del_producto = document.getElementById("id_Product").value;
+        {#alert(1);#}
+        cantidad_requerida = document.getElementById("id_Qty_Req").value;
+        {#alert(2);#}
+        es_sellado = document.getElementById("id_Sellado").value;
+        {#alert(3);#}
+        tiene_barcode = document.getElementById("id_Barcode").value;
+        {#alert(4);#}
+        instrucciones = document.getElementById("id_Special_Inst").value;
+        {#alert(5);#}
+
+
+        $('.loading-icon').removeClass('no-display');
+        $('#IraPagar').attr('disabled',true);
+        $('.btn-txt').text('Adding Item..., Wait');
+
+        {#alert('aqui voy 2');#}
+
+        $.ajax({
+            url: '/App/OrderContractor/additem3/',
+            type: 'POST',
+            headers: {"X-CSRFToken": csrftoken},
+            data: {
+                'orden2': orden,
+                'prod2' : id_del_producto,
+                'qty2' : cantidad_requerida,
+                'sellado_v' : es_sellado,
+                'barcode_v' :tiene_barcode,
+                'instrucc' :instrucciones,
+            },
+            dataType: "json",
+            cache: true,
+            async: false,
+            success: function (response) {
+                setTimeout(function () {
+
+                    $('.loading-icon').addClass('no-display');
+                    $('#IraPagar').attr('disabled', false);
+                    $('.btn-txt').text('Add Item');
+                    {#alert('Done - Boxing and Item added ');#}
+                    location.reload();
+                }, 500)
+
+            },
+        })
+        {#alert('fin..termine')#}
+        });
+    </script>
+{% endblock %}
+

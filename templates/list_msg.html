@@ -1,0 +1,279 @@
+{#{% extends 'body.html' %}#}
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    <link href="{% static '/lib/adminlte-3.1.0-rc/img/LogoGuardog.png'%}" rel="icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .no-display{
+            display: none;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="card card-default">
+  <div class="card-header">
+    <h3 class="card-title">
+      <i class="fas fa-search"></i>
+      {{ titulo }}
+    </h3>
+  </div>
+  <div>
+     {% if mensaje  %}
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> {{ mensaje }} </h5>
+
+                </div>
+            {% endif %}
+  </div>
+  <div class="card-body">
+    <table class="table" id="data">
+      <thead>
+        {% block columns %}
+
+        {% endblock %}
+      </thead>
+      <tbody>
+        {% block rows %}
+
+        {% endblock %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+      {% csrf_token %}
+
+      <button class="btn btn-info btn-flat" Id="EnviarMsg1">
+				<i class="loading-icon fa fa-spinner fa-spin no-display "></i>
+                <span class="btn-txt">Feliz Cumpleaños (1) </span>
+      </button>
+
+      <button class="btn btn-success btn-flat" Id="EnviarMsg2">
+				<i class="loading-icon2 fa fa-spinner fa-spin no-display "></i>
+                <span class="btn-txt2"> Vencimiento en 2 dias </span>
+      </button>
+
+      <button class="btn btn-warning btn-flat" Id="EnviarMsg3">
+				<i class="loading-icon3 fa fa-spinner fa-spin no-display "></i>
+                <span class="btn-txt3">Mora > 15 y < 45 </span>
+      </button>
+
+      <button class="btn btn-danger btn-flat" Id="EnviarMsg4">
+				<i class="loading-icon4 fa fa-spinner fa-spin no-display "></i>
+                <span class="btn-txt4">Mora >= 46 y < 90 Prejuridico</span>
+      </button>
+
+      <button class="btn btn-danger btn-flat" Id="EnviarMsg5">
+				<i class="loading-icon5 fa fa-spinner fa-spin no-display "></i>
+                <span class="btn-txt5">Mora >= 90 - Cobro Juridico </span>
+      </button>
+
+
+        <input id="fec_recordatorio" name="fec_recordatorio" type="text" hidden value="{{ fecha_recordatorio }}">
+        <input id="fec_cumple" name="fec_cumple" type="text" hidden value="{{ fecha_cumple }}">
+  </div>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: false,
+                pageLength: 10,
+                order: [0, 'desc']
+            });
+        });
+        $('#EnviarMsg2').click(function() {
+                var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+                {#alert(csrftoken)#}
+                {#asesoria_n = {{ form.initial.id }};#}
+                valor = document.getElementById("fec_recordatorio").value;
+                fec_c = document.getElementById("fec_cumple").value;
+                $('.loading-icon2').removeClass('no-display');
+                $('#EnviarMsg2').attr('disabled',true);
+                $('.btn-txt2').text('Enviando Correos, Espere');
+                $.ajax({
+                    url: '/Cobranza/Asesorias/enviar_msg1/',
+                    type: 'POST',
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: {
+                        'fecha' : valor,
+                        'msg' :  2,
+                        'fecha_c' : fec_c
+
+                    },
+                    dataType: "json",
+                    cache: true,
+                    async : false,
+                    success: function(response) {
+                        setTimeout(function (){
+
+                            $('.loading-icon2').addClass('no-display');
+                            $('#EnviarMsg2').attr('disabled',false);
+                            $('.btn-txt2').text(' Vencimiento en 2 dias');
+
+                        },5000)
+
+                     }
+                });
+                {#alert('fin..termine')#}
+        });
+        $('#EnviarMsg1').click(function() {
+                var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+                {#alert(csrftoken)#}
+                {#asesoria_n = {{ form.initial.id }};#}
+                valor = document.getElementById("fec_recordatorio").value;
+                fec_c = document.getElementById("fec_cumple").value;
+                $('.loading-icon').removeClass('no-display');
+                $('#EnviarMsg1').attr('disabled',true);
+                $('.btn-txt').text('Enviando Correos, Espere');
+
+                $.ajax({
+                    url: '/Cobranza/Asesorias/enviar_msg1/',
+                    type: 'POST',
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: {
+                        'fecha' : valor,
+                        'msg' :  1,
+                        'fecha_c' : fec_c
+                        {#2 es recordatorio de pago - 1 es cumpleaños#}
+                    },
+                    dataType: "json",
+                    cache: true,
+                    async : false,
+                    success: function(response) {
+                        setTimeout(function (){
+
+                            $('.loading-icon').addClass('no-display');
+                            $('#EnviarMsg1').attr('disabled',false);
+                            $('.btn-txt').text('Feliz Cumpleaños (1) ');
+
+                        },5000)
+
+                     }
+                });
+                {#alert('fin..termine')#}
+        });
+        {#Mora A#}
+        $('#EnviarMsg3').click(function() {
+                var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+                {#alert(csrftoken)#}
+                {#asesoria_n = {{ form.initial.id }};#}
+                valor = document.getElementById("fec_recordatorio").value;
+                fec_c = document.getElementById("fec_cumple").value;
+                $('.loading-icon3').removeClass('no-display');
+                $('#EnviarMsg3').attr('disabled',true);
+                $('.btn-txt3').text('Enviando Correos, Espere');
+                $.ajax({
+                    url: '/Cobranza/Asesorias/enviar_msg1/',
+                    type: 'POST',
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: {
+                        'fecha' : valor,
+                        'msg' :  3,
+                        'fecha_c' : fec_c
+                        {#2 es recordatorio de pago - 1 es cumpleaños#}
+                    },
+                    dataType: "json",
+                    cache: true,
+                    async : false,
+                    success: function(response) {
+                        setTimeout(function (){
+
+                            $('.loading-icon3').addClass('no-display');
+                            $('#EnviarMsg3').attr('disabled',false);
+                            $('.btn-txt3').text('Mora > 15 y < 45 ');
+
+                        },5000)
+
+                     }
+                });
+                {#alert('fin..termine')#}
+        });
+        $('#EnviarMsg4').click(function() {
+                var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+                {#alert(csrftoken)#}
+                {#asesoria_n = {{ form.initial.id }};#}
+                valor = document.getElementById("fec_recordatorio").value;
+                fec_c = document.getElementById("fec_cumple").value;
+                $('.loading-icon4').removeClass('no-display');
+                $('#EnviarMsg4').attr('disabled',true);
+                $('.btn-txt4').text('Enviando Correos, Espere');
+                $.ajax({
+                    url: '/Cobranza/Asesorias/enviar_msg1/',
+                    type: 'POST',
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: {
+                        'fecha' : valor,
+                        'msg' :  4,
+                        'fecha_c' : fec_c
+                        {#2 es recordatorio de pago - 1 es cumpleaños#}
+                    },
+                    dataType: "json",
+                    cache: true,
+                    async : false,
+                    success: function(response) {
+                        setTimeout(function (){
+
+                            $('.loading-icon4').addClass('no-display');
+                            $('#EnviarMsg4').attr('disabled',false);
+                            $('.btn-txt4').text('Mora >= 46 y < 90 Prejuridico');
+
+                        },5000)
+
+                     }
+                });
+                {#alert('fin..termine')#}
+        });
+        $('#EnviarMsg5').click(function() {
+                var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+                {#alert(csrftoken)#}
+                {#asesoria_n = {{ form.initial.id }};#}
+                valor = document.getElementById("fec_recordatorio").value;
+                fec_c = document.getElementById("fec_cumple").value;
+                $('.loading-icon5').removeClass('no-display');
+                $('#EnviarMsg5').attr('disabled',true);
+                $('.btn-txt5').text('Enviando Correos, Espere');
+                $.ajax({
+                    url: '/Cobranza/Asesorias/enviar_msg1/',
+                    type: 'POST',
+                    headers:{"X-CSRFToken": csrftoken},
+                    data: {
+                        'fecha' : valor,
+                        'msg' :  5,
+                        'fecha_c' : fec_c
+                        {#2 es recordatorio de pago - 1 es cumpleaños#}
+                    },
+                    dataType: "json",
+                    cache: true,
+                    async : false,
+                    success: function(response) {
+                        setTimeout(function (){
+
+                            $('.loading-icon5').addClass('no-display');
+                            $('#EnviarMsg5').attr('disabled',false);
+                            $('.btn-txt5').text('Mora >= 90 - Cobro Juridico');
+
+                        },5000)
+
+                     }
+                });
+                {#alert('fin..termine')#}
+        });
+
+    </script>
+{% endblock %}

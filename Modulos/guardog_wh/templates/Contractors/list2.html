@@ -1,0 +1,129 @@
+{% extends 'list_Contractor.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block columns %}
+    <tr>
+        <th  >Order</th>
+        <th  >Delivery Date</th>
+        <th  >Project</th>
+
+        <th  >Contractor</th>
+        <th  >Code</th>
+        <th  >Producto/Rate</th>
+        <th >Qty Req/Deliveried</th>
+        <th  >on QuickBooks ?</th>
+        <th  >Special Intructions</th>
+
+
+
+    </tr>
+{% endblock %}
+
+{% block rows %}
+    {% if user.tipousuario == 'G' %}
+        {% for c in object_list %} <!--# en object list vienen mi datos -->
+            {% if c.Orden.Contractor_id > 0 %}
+             <tr>
+                <td>{{ c.Orden }}</td>
+                <td>{{ c.fecha |date:'m-d-Y'}}</td>
+                <td>{{ c.Orden.Project.Name }}</td>
+
+                <td>{{ c.Orden.Contractor.Name }}</td>
+                <td>{{ c.Product.code}}</td>
+                <td>{{ c.Product.name }} - ({{ c.Product.rate.valor }})</td>
+                <td>{{ c.Qty_Req }} / ({{ c.Qty_Delivery }})</td>
+
+                {% if c.En_QuickB == 'Y' %}
+                    <td>
+                         {{ c.fecha_quickbook }}
+                    </td>
+                {% endif %}
+                 {% if c.En_QuickB == 'N' %}
+                    <td>
+                        {% if user.tipousuario == 'G' %}
+                             <a href= "{% url 'Cobranza:producto_en_quickbook' c.id %}"  class="btn btn-danger btn btn-flat" title="Put the product on QuickBooks">
+                                            <i class="fas fa-address-card"></i> Pending
+                            </a>
+                        {% else %}
+                            -------
+                        {% endif %}
+
+                    </td>
+                {% endif %}
+                <td>{{ c.Special_Inst }}</td>
+            </tr>
+         {% endif %}
+        {% endfor %}
+    {% else %}
+        {% for c in object_list %} <!--# en object list vienen mi datos -->
+            {% if c.Orden.Contractor_id == user.cedula|add:"0" %}
+             <tr>
+
+                <td>{{ c.fecha |date:'m-d-Y'}}</td>
+                <td>{{ c.Orden.Project.Name }}</td>
+                <td>{{ c.Orden }}</td>
+                <td>{{ c.Orden.Contractor.Name }}</td>
+                <td>{{ c.Product.code}}</td>
+                <td>{{ c.Product.name }} - ({{ c.Product.rate.valor }})</td>
+                <td>{{ c.Qty_Req }} / ({{ c.Qty_Delivery }})</td>
+
+                {% if c.En_QuickB == 'Y' %}
+                    <td>
+                         {{ c.fecha_quickbook }}
+                    </td>
+                {% endif %}
+                 {% if c.En_QuickB == 'N' %}
+                    <td>
+                        {% if user.tipousuario == 'G' %}
+                             <a href= "{% url 'Cobranza:producto_en_quickbook' c.id %}"  class="btn btn-danger btn btn-flat" title="Put the product on QuickBooks">
+                                            <i class="fas fa-address-card"></i> Pending
+                            </a>
+                        {% else %}
+                            -------
+                        {% endif %}
+
+                    </td>
+                {% endif %}
+                <td>{{ c.Special_Inst }}</td>
+            </tr>
+         {% endif %}
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: true,
+                pageLength: 10,
+                order:[0,'desc'],
+                {#"language":#}
+                {#    {#}
+                {#        url: '{% static 'lib/datatables-1.10.20/spanish.txt' %}'#}
+                {#    },#}
+                "language": {
+			           "search": "Filter records:","lengthMenu": "Display _MENU_ records",
+                        "infoEmpty": "No entries to show","info": "Showing page _PAGE_ of _PAGES_",
+                        "emptyTable": "No data available in table","previous": "Previous page","sNext": "Next"}
+            });
+
+            $('.btnTest').on('click', function () {
+                $.ajax({
+                    url: '',
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus+': '+errorThrown);
+                }).always(function (data) {
+
+                });
+            });
+        });
+    </script>
+{% endblock %}

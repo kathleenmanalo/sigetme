@@ -1,0 +1,92 @@
+{% extends 'list_Contractor.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block columns %}
+    <tr>
+        <th  >Id</th>
+        <th  >Project</th>
+        <th  >Contractor</th>
+        <th  >Status</th>
+{#        <th  >Paid ?</th>#}
+        <th >Created Date</th>
+{#        <th  >Paid Date</th>#}
+        <th  >Special Intructions</th>
+        <th  >Actions</th>
+
+    </tr>
+{% endblock %}
+
+{% block rows %}
+     {% for c in object_list %} <!--# en object list vienen mi datos -->
+        <tr>
+
+            <td>{{ c.id }}</td>
+            <td>{{ c.Project.Name}}</td>
+            <td>{{ c.Contractor.Name}}</td>
+            {% if c.closed == 'N' %}
+                <td><h6 style="color:Tomato;">Open</h6></td>
+            {% endif %}
+            {% if c.closed == 'Y' %}
+                <td><h6 style="color:MediumSeaGreen;">Closed</h6></td>
+            {% endif %}
+{#            {% if c.paied == 'N' %}#}
+{#                <td><h6 style="color:Tomato;">No Payment</h6></td>#}
+{#            {% endif %}#}
+{#            {% if c.paied == 'Y' %}#}
+{#                <td><h6 style="color:MediumSeaGreen;">Paid</h6></td>#}
+{#            {% endif %}#}
+
+            <td>{{ c.Created_date |date:'m-d-Y'}}</td>
+{#            <td>{{ c.paid_fecha |date:'m-d-Y'}}</td>#}
+            <td>{{ c.Special_Inst}}</td>
+            <td>
+
+{#            <button type="button" class="btn btn-primary btn-sm">Small button</button>#}
+
+            {% if user.tipousuario == 'G' %}
+                <a href= "{% url 'Cobranza:list_order_detail_contractor' c.id %}"  class="btn btn-warning btn-sm" title="Add items to Order">
+                                    <i class="fas fa-address-card"></i> View/Add Items
+                </a>
+
+            {% endif %}
+                <a href="{% url 'Cobranza:print_full_ordercontractor' c.id %}" class="btn btn-success btn-sm"> <!--esto sirve para hacer llamados -->
+              <i class="fas fa-print"></i> Print Order
+            </a>
+
+            </td>
+
+        </tr>
+    {% endfor %}
+{% endblock %}
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: true,
+                pageLength: 10,
+                order:[0,'desc'],
+                "language": {
+			           "search": "Filter records:","lengthMenu": "Display _MENU_ records",
+                        "infoEmpty": "No entries to show","info": "Showing page _PAGE_ of _PAGES_",
+                        "emptyTable": "No data available in table","previous": "Previous page","sNext": "Next"}
+            });
+
+            $('.btnTest').on('click', function () {
+                $.ajax({
+                    url: '{% url 'Cobranza:list_order_contractor_open' %}',
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus+': '+errorThrown);
+                }).always(function (data) {
+
+                });
+            });
+        });
+    </script>
+{% endblock %}

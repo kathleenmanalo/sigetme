@@ -1,0 +1,130 @@
+{% extends 'layout.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    <link href="{% static '/lib/adminlte-3.1.0-rc/img/LogoGuardog.png'%}" rel="icon">
+{#    <link href="{% static 'lib/iportafolio/img/apple-touch-icon.png'%}" rel="apple-touch-icon">#}
+{% endblock %}
+
+{% block content %}
+
+<div class="card card-default">
+  <div class="card-header">
+    <h3 class="card-title">
+      <i class="fas fa-search"></i>
+      {{ titulo }}
+    </h3>
+
+
+  </div>
+</div>
+
+
+  <div class="card-body">
+    <table class="table" id="data">
+      <thead>
+            <tr>
+                <th scope="col" >Id</th>
+                <th scope="col" >S.O Number</th>
+                 <th scope="col" >P.O Number</th>
+                <th scope="col" >Customer</th>
+                <th scope="col" >Ship To</th>
+                <th scope="col" >Sales Rep</th>
+                <th scope="col" >Date</th>
+                <th scope="col" >Opciones</th>
+            </tr>
+
+      </thead>
+      <tbody>
+            {% for c in Cartera %} <!--# en object list vienen mi datos -->
+                <tr>
+                    <td>{{ c.id }}</td>
+                    <td>{{ c.So_number}}</td>
+                    <td>{{ c.Po_number}}</td>
+                    <td>{{ c.customer.name}}</td>
+                    <td>{{ c.shipto.citi.name}} - {{ c.shipto.citi.estado.name}} - {{ c.shipto.ShipTo}} - {{ c.shipto.zipcode}}</td>
+                    <td>{{ c.rep.name}}</td>
+                    <td>{{ c.fecha}}</td>
+                    <td>
+                        <a href= "{% url 'Cobranza:order_update' c.id %}"  class="btn btn-info btn-xs btn-flat" title="Edit Order">
+                            <i class="fas fa-cash-register"></i> Edit Order
+                        </a>
+                        <a href= "{% url 'Cobranza:prestamo_pagos' c.id %}"  class="btn btn-info btn-xs btn-flat"
+                            <i class="fas fa-cash-register"></i> Add idem to Order
+                        </a>
+
+{#                        {% if es_cajero == 1 and c.saldo_capital > 0%}#}
+{#                            <a href= "{% url 'Cobranza:prestamo_pagos' c.pagare %}"  class="btn btn-danger btn btn-flat">#}
+{#                            <i class="fas fa-cash-register"></i> Pago Cuota#}
+{#                            </a>#}
+{#                            <a href= "{% url 'Cobranza:prestamo_pago_total' c.pagare %}"  class="btn btn-success btn btn-flat">#}
+{#                                <i class="fas fa-cash-register"></i> Pago Total#}
+{#                            </a>#}
+{#                            <a href= "{% url 'Cobranza:prestamo_pago_retanqueo' c.pagare %}"  class="btn btn-info btn btn-flat">#}
+{#                                <i class="fas fa-cash-register"></i> Retanqueo#}
+{#                            </a>#}
+{#                            {% if c.valor_mora <= 0 %}#}
+{#                                <a href= "{% url 'Cobranza:prestamo_pagos_capital' c.pagare %}"  class="btn btn-success btn-xs btn-flat">#}
+{#                                    <i class="fas fa-cash-register"></i> Abono Capital (Cuota Igual)#}
+{#                                </a>#}
+{#                            {% endif %}#}
+{#                            {% if c.valor_mora <= 0 %}#}
+{#                                <a href= "{% url 'Cobranza:prestamo_pagos_capital2' c.pagare %}"  class="btn btn-secondary btn-xs btn-flat">#}
+{#                                    <i class="fas fa-cash-register"></i> Abono Capital (Reducción Cuota)#}
+{#                                </a>#}
+{#                            {% endif %}#}
+{#                        {% endif %}#}
+
+
+                    </td>
+                </tr>
+            {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer">
+    <a href="{{ create_url }}" class="btn btn-primary btn-flat btnTest"> <!--esto sirve para hacer llamados -->
+      <i class="fas fa-plus"></i> Adicionar un Registro
+    </a>
+      <div id="plan_pago"></div>
+  </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+    <script type="application/javascript">
+        $(function () {
+            $('#data').DataTable({
+                responsive: true,
+                autoWidth: false,
+                pageLength: 25,
+                order:[0,'desc']
+            });
+
+            $('.btnTest').on('click', function () {
+                $.ajax({
+                    {#url: '',#}
+                    type: 'POST',
+                    data: {id: 1},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus+': '+errorThrown);
+                }).always(function (data) {
+
+                });
+            });
+        });
+    </script>
+{% endblock %}

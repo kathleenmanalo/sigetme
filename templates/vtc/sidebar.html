@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" style="height: auto;">
+<aside class="main-sidebar sidebar-mini sidebar-light-secondary elevation-5">
+    <a href="{% url 'Cobranza:list_order_contractor_open' %}" class="brand-link">
+        <img src="{% static '/lib/adminlte-3.1.0-rc/img/LogoGuardog.png' %}"
+             alt="AdminLTE Logo"
+             class="brand-image img-circle elevation-4"
+             style="opacity: .8">
+            <span class="brand-text font-weight"> IAN 2.0</span>
+    </a>
+    <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{% static '/lib/adminlte-3.1.0-rc/img/avatar5.png' %}" class="img-circle elevation-3" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="{% url 'Cobranza:customers_list' %}" class="d-block">{{ user.first_name }} {{ user.last_name }} </a>
+                <a href="{% url 'Cobranza:customers_list' %}" class="d-block">Profile : {{ user.tipousuario}} </a>
+            </div>
+        </div>
+         <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+
+
+        {% if user.tipousuario == 'G' %}
+                <li class="nav-item ">
+                    <a href="#" class="nav-link active">
+                      <i class="fas fa-print"></i>
+                      <p>
+                        Contractor Module
+                        <i class="fas fa-angle-left right"></i>
+                        <span class="badge badge-info right">7</span>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:list_order_contractor' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Order's Contractors (Total)</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:list_order_contractor_open' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Open Orders</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:list_order_contractor_close' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Close Orders </p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:list_order_contractor_entregado' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Assembly Log </p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:reporte_entregado2' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Assembly Log - Range</p>
+                        </a>
+                      </li>
+
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:reporte_financiero_1' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Ready to Pay</p>
+                        </a>
+                      </li>
+                        <li class="nav-item">
+                        <a href="{% url 'Cobranza:reporte_financiero_2' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>View Payments</p>
+                        </a>
+                      </li>
+
+                     </ul>
+            </li>
+            {% endif %}
+
+        {% if user.tipousuario == 'G' %}
+                <li class="nav-item ">
+                    <a href="#" class="nav-link active">
+                      <i class="fas fa-print"></i>
+                      <p>
+                        Labeling Module
+                        <i class="fas fa-angle-left right"></i>
+                        <span class="badge badge-info right">2</span>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:order_create' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Create Order - Labeling</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:customers_list' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>View Orders - Labeling</p>
+                        </a>
+                      </li>
+
+
+                     </ul>
+            </li>
+            {% endif %}
+
+        {% if user.tipousuario == 'H' %}
+                <li class="nav-item ">
+                    <a href="#" class="nav-link active">
+                      <i class="fas fa-print"></i>
+                      <p>
+                        Operational Tx
+                        <i class="fas fa-angle-left right"></i>
+                        <span class="badge badge-info right">4</span>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                        <a href="{% url 'Cobranza:list_order_contractor_open' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Open Orders</p><span class="badge badge-danger right">New</span>
+                        </a>
+                        </li>
+                         <li class="nav-item">
+                            <a href="{% url 'Cobranza:list_order_contractor_close' %}" class="nav-link">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>Close Orders </p><span class="badge badge-danger right">New</span>
+                            </a>
+                        </li>
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:list_order_contractor_entregado' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Assembly Log </p><span class="badge badge-danger right">New</span>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'Cobranza:reporte_entregado2' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Assembly Log - Range</p><span class="badge badge-danger right">New</span>
+                        </a>
+                      </li>
+
+
+                     </ul>
+            </li>
+            {% endif %}
+
+
+        </ul>
+      </nav>
+    </div>
+</aside>
+</html>
