@@ -11,22 +11,29 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import dj_database_url
+
 from pathlib import Path
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(os.path.join(BASE_DIR/".eVar", ".env"))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7z+z4bv1%7nz11o^fs*yj%_ox=hvn9d9rw-p+8x0-z9o00nw9k'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+
+ALLOWED_HOSTS += os.environ.get("ALLOWED_HOSTS").split()
 
 
 # Application definition
@@ -85,16 +92,34 @@ WSGI_APPLICATION = 'sigetme.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.mysql',
+#          'NAME': 'sigetme02',
+#          'USER': 'root',
+#          'PASSWORD': '1234',
+#          'HOST': 'localhost',
+#          'PORT': '3306'
+#      }
+#  }
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default="sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
+#     )
+# }
+
 DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'sigetme02',
-         'USER': 'root',
-         'PASSWORD': '1234',
-         'HOST': 'localhost',
-         'PORT': '3306'
+         'NAME': 'kmanalogd$sigetme',
+         'USER': 'kmanalogd',
+         'PASSWORD': '1234567gds',
+         'HOST': 'kmanalogd.mysql.pythonanywhere-services.com',
+         'PORT': ''
      }
  }
+
 
 
 # Password validation
